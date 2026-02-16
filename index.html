@@ -265,17 +265,16 @@
 
     <div class="scene"><div class="cube-wrapper" id="cube-container"></div></div>
     <div class="scroll-container" id="ghost-scroll"></div>
-
-    <script>
-       const projects = [
+<script>
+        const projects = [
             { 
                 title: "Viote", 
                 desc: "Viote it's a <b>polifunctional object</b>, serving both as an engaging <b>toy</b>, and as a <b>photo holder</b>.", 
                 sub: [
-        { title: "Concept", text: "Questo è il testo di concept hai capito" },
-        { title: "Texture", text: "oddio ma assurdo c'è anche texture!" },
-        { title: "Process", text: "No vabbe pure process no" }
-    ], 
+                    { title: "Concept", text: "Questo è il testo di concept hai capito" },
+                    { title: "Texture", text: "oddio ma assurdo c'è anche texture!" },
+                    { title: "Process", text: "No vabbe pure process no" }
+                ], 
                 img: "in-mano.jpg", 
                 subImages: ["geometria-viote.jpg", "su-pavimento2.jpg", "render-viote2.jpg"], 
                 color: [221, 194, 161] 
@@ -294,7 +293,7 @@
                 img: "preview-toori.jpg", 
                 subImages: ["schema-toori.jpg", "scomposto-toori2.jpg", "toori-bianco-dietro.jpg"],
                 color: [245, 180, 109] },
-           
+            
             {   title: "Where's the Bus?", 
                 desc: "This project features a <b>lenticular poster</b> at public transport stops. As passersby move from side to side, they experience two contrasting visions of the city—one <b>congested with traffic</b> and the other completely <b>clear</b>.",
                 sub: ["Concept", "Technology", "Impact"], 
@@ -321,11 +320,11 @@
         let currentScrollY = 0;
         const isMobile = () => window.innerWidth <= 768;
 
-        // --- INIZIO NUOVO CODICE ---
+        // --- MOTORE CHE GENERA LE PAGINE ---
         let flatFaces = [{ type: 'landing', color: [240, 240, 240] }];
         
         projects.forEach((proj, pIdx) => {
-            // 1. Pagina Principale (usa sempre proj.img)
+            // 1. Pagina Principale
             flatFaces.push({ 
                 type: 'main', 
                 title: proj.title,
@@ -335,7 +334,7 @@
                 color: proj.color 
             });
 
-          // 2. Sottosezioni
+            // 2. Sottosezioni (LOOP CORRETTO)
             proj.sub.forEach((subItem, sIdx) => {
                 let specificImg = proj.img; 
                 if (proj.subImages && proj.subImages[sIdx]) {
@@ -343,8 +342,8 @@
                 }
 
                 // Gestisce sia il nuovo formato (Oggetto) che il vecchio (Stringa)
-                let sTitle = subItem.title ? subItem.title : subItem; // Se è oggetto usa title, altrimenti usa la stringa
-                let sDesc = subItem.text ? subItem.text : "";         // Se è oggetto usa text, altrimenti vuoto
+                let sTitle = subItem.title ? subItem.title : subItem; 
+                let sDesc = subItem.text ? subItem.text : "";         
 
                 flatFaces.push({ 
                     type: 'sub', 
@@ -356,29 +355,13 @@
                     subIdx: sIdx, 
                     color: proj.color 
                 });
-            });
-                // Controllo: Esiste una subImage per questo indice? Se sì, usala. Altrimenti usa la principale.
-                let specificImg = proj.img; 
-                if (proj.subImages && proj.subImages[sIdx]) {
-                    specificImg = proj.subImages[sIdx];
-                }
-
-                flatFaces.push({ 
-                    type: 'sub', 
-                    title: proj.title, 
-                    subTitle: sName, 
-                    projectIdx: pIdx, 
-                    img: specificImg, // Qui usa l'immagine specifica
-                    subIdx: sIdx, 
-                    color: proj.color 
-                });
-            });
+            }); 
+            // QUI C'ERA L'ERRORE: HO RIMOSSO IL CODICE DUPLICATO CHE ERA FINITO QUI
         });
         
         flatFaces.push({ type: 'final-call', title: "CHECK ME OUT HERE!", color: [10, 10, 10] });
-        // --- FINE NUOVO CODICE ---
 
-        // Sidebar Generation
+        // --- SIDEBAR GENERATION ---
         projects.forEach((proj, i) => {
             const group = document.createElement('div');
             group.className = 'nav-group'; group.id = `group-${i}`;
@@ -390,26 +373,25 @@
             const sNav = document.createElement('div');
             sNav.className = 'sub-nav';
             
-            // --- CORREZIONE QUI SOTTO ---
+            // Loop Sottosezioni Sidebar Corretto
             proj.sub.forEach((subItem, si) => {
                 const sl = document.createElement('a');
                 sl.className = 'sub-link'; 
                 sl.id = `sublink-${i}-${si}`; 
                 sl.href = "#"; 
                 
-                // Controllo: se subItem è un oggetto usa .title, se è solo testo usa subItem stesso
-                // Questo evita la scritta "undefined" sugli altri progetti
                 let label = subItem.title ? subItem.title : subItem;
                 
                 sl.innerHTML = label; 
                 sl.onclick = (e) => { e.preventDefault(); navigateTo(2 + i * 4 + si); };
                 sNav.appendChild(sl);
             });
-            // ---------------------------
+            // QUI C'ERA L'ERRORE 2: RIMOSSO CODICE DUPLICATO
 
             group.appendChild(mLink); group.appendChild(sNav); navbar.appendChild(group);
         });
-        // 5th Section: CONTACTS (Manual Add)
+
+        // 5th Section: CONTACTS
         const contactGroup = document.createElement('div');
         contactGroup.className = 'nav-group';
         contactGroup.id = 'group-contacts';
@@ -420,7 +402,7 @@
         contactGroup.appendChild(cLink);
         navbar.appendChild(contactGroup);
 
-        // Generate Faces
+        // Generate Faces HTML
         flatFaces.forEach((data, i) => {
             const snap = document.createElement('div'); snap.className = 'snap-point'; ghost.appendChild(snap);
             const face = document.createElement('div'); face.className = 'cube-face';
@@ -430,19 +412,19 @@
                 <div class="horizontal-slider" id="main-slider">
                     <div class="panel">
                         <div class="centered-container">
-    
-    <em class="italic-script" style="margin-bottom: -5px; display: block;">ciao!</em>
+   
+                            <em class="italic-script" style="margin-bottom: -5px; display: block;">ciao!</em>
 
-    <h1 class="split-title monumental" style="margin: 0;">
-        <div>HERE'S MY</div>
-        <div>INDUSTRIAL</div>
-        <div>DESIGN</div>
-        <div>JOURNAL.</div>
-    </h1>
+                            <h1 class="split-title monumental" style="margin: 0;">
+                                <div>HERE'S MY</div>
+                                <div>INDUSTRIAL</div>
+                                <div>DESIGN</div>
+                                <div>JOURNAL.</div>
+                            </h1>
 
-    <em class="italic-script" style="margin-top: -5px; display: block;">enjoy!</em>
+                            <em class="italic-script" style="margin-top: -5px; display: block;">enjoy!</em>
 
-</div>
+                        </div>
                     
                         <div class="hint-vertical" onclick="navigateTo(1)">
                             <span class="italic-script-small">some of what i've done</span>
@@ -468,11 +450,11 @@
                         </div>
                 </div>`;
             } else if (data.type === 'main') {
-    face.innerHTML = `<div class="portfolio-content">
-        <h3>Project Overview</h3>
-        <h2>${data.title}</h2>
-        <p>${data.desc}</p>  </div>
-    <div class="image-container"><img src="${data.img}"></div>`;
+                face.innerHTML = `<div class="portfolio-content">
+                    <h3>Project Overview</h3>
+                    <h2>${data.title}</h2>
+                    <p>${data.desc}</p>  </div>
+                <div class="image-container"><img src="${data.img}"></div>`;
             } else if (data.type === 'sub') {
                 face.innerHTML = `<div class="portfolio-content">
                     <h3>${data.title} / Study</h3>
@@ -631,10 +613,9 @@
             mobDown.style.color = document.body.style.color;
 
             // --- FIXED: AUTO-HIDE PC NAV ON LAST PAGE ---
-            const isAtEnd = sY > (flatFaces.length - 1.2) * vh; // Detect last page
+            const isAtEnd = sY > (flatFaces.length - 1.2) * vh; 
             const isPCLanding = sY > vh * 0.4;
             
-            // Show only if NOT at end (for PC) or Always on Mobile if scrolled
             if (isPCLanding && (!isAtEnd || isMobile())) {
                 navbar.classList.add('visible');
             } else {
@@ -692,16 +673,15 @@
         }
         update(); 
         window.addEventListener('resize', () => { vh = window.innerHeight; if(!isMobile()) targetScrollY = window.scrollY; });
-        // --- FUNZIONE PER LA FRECCIA "WHO AM I" ---
+        
         window.openPresentation = function() {
             const slider = document.getElementById('main-slider');
-            // Imposta lo spostamento negativo (verso sinistra) per mostrare il secondo pannello
             currentXOffset = -window.innerWidth; 
             slider.style.transition = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
             slider.style.transform = `translate3d(${currentXOffset}px, 0, 0)`;
         };
-
-    </script> </body>
+    </script>
+</body>
     </script>
 </body>
 </html>
