@@ -279,14 +279,41 @@
         let currentScrollY = 0;
         const isMobile = () => window.innerWidth <= 768;
 
+        // --- INIZIO NUOVO CODICE ---
         let flatFaces = [{ type: 'landing', color: [240, 240, 240] }];
+        
         projects.forEach((proj, pIdx) => {
-            flatFaces.push({ type: 'main', title: proj.title, projectIdx: pIdx, img: proj.img, color: proj.color });
+            // 1. Pagina Principale (usa sempre proj.img)
+            flatFaces.push({ 
+                type: 'main', 
+                title: proj.title, 
+                projectIdx: pIdx, 
+                img: proj.img, 
+                color: proj.color 
+            });
+
+            // 2. Sottosezioni (cerca l'immagine specifica)
             proj.sub.forEach((sName, sIdx) => {
-                flatFaces.push({ type: 'sub', title: proj.title, subTitle: sName, projectIdx: pIdx, img: proj.img, subIdx: sIdx, color: proj.color });
+                // Controllo: Esiste una subImage per questo indice? Se sì, usala. Altrimenti usa la principale.
+                let specificImg = proj.img; 
+                if (proj.subImages && proj.subImages[sIdx]) {
+                    specificImg = proj.subImages[sIdx];
+                }
+
+                flatFaces.push({ 
+                    type: 'sub', 
+                    title: proj.title, 
+                    subTitle: sName, 
+                    projectIdx: pIdx, 
+                    img: specificImg, // Qui usa l'immagine specifica
+                    subIdx: sIdx, 
+                    color: proj.color 
+                });
             });
         });
+        
         flatFaces.push({ type: 'final-call', title: "CHECK ME OUT HERE!", color: [10, 10, 10] });
+        // --- FINE NUOVO CODICE ---
 
         // Sidebar Generation
         projects.forEach((proj, i) => {
