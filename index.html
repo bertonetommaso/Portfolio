@@ -389,7 +389,7 @@
             const snap = document.createElement('div'); snap.className = 'snap-point'; ghost.appendChild(snap);
             const face = document.createElement('div'); face.className = 'cube-face';
             
-            if (data.type === 'landing') {
+           if (data.type === 'landing') {
                 face.innerHTML = `
                 <div class="horizontal-slider" id="main-slider">
                     <div class="panel">
@@ -403,18 +403,29 @@
                             </h1>
                             <em class="italic-script" style="margin-top: -20px; display: block;">enjoy!</em>
                         </div>
+                        
                         <div class="hint-vertical" onclick="navigateTo(1)">
                             <span class="italic-script-small">some of what i've done</span>
                             <span class="arrow">↓</span>
                         </div>
-                        <div class="hint-horizontal" onclick="openPresentation()">
-    <span class="italic-script-small">who am i?</span>
-    <span class="arrow">→</span>
-</div>
+
+                        <div class="hint-horizontal" onclick="openPresentation()"><span class="italic-script-small">who am i?</span><span class="arrow">→</span></div>
                     </div>
+
                     <div class="panel">
-                        <div class="presentation-content"><img src="foto-meno.jpg" class="presentation-rect" style="object-fit: cover;"><div class="presentation-text"><h2>Hi there!</h2><p>I’m Tommaso - 21 year old , studying Product Design at Politecnico di Torino. Keen to upgrade my software and practical skills, I’ve always been open to innovations and challenges to better myself. Through my projects I aim to convey functionality and a balanced aestethics.</p></div></div>
-                    </div>
+                        <div class="presentation-content">
+                            <img src="me-foto.jpg" class="presentation-rect" style="object-fit: cover;">
+                            <div class="presentation-text">
+                                <h2>Hi there!</h2>
+                                <p>I’m Tommaso - 21 year old , studying Product Design at Politecnico di Torino. Keen to upgrade my software and practical skills, I’ve always been open to innovations and challenges to better myself. Through my projects I aim to convey functionality and a balanced aestethics.</p>
+                            </div>
+                        </div>
+
+                        <div class="hint-vertical" onclick="navigateTo(1)">
+                            <span class="italic-script-small">some of what i've done</span>
+                            <span class="arrow">↓</span>
+                        </div>
+                        </div>
                 </div>`;
             } else if (data.type === 'main') {
     face.innerHTML = `<div class="portfolio-content">
