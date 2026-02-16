@@ -255,6 +255,18 @@
         font-size: 3rem !important; /* Era 3rem. Ora è più piccolo */
     }
 }
+    /* --- DIDASCALIA SOTTO IMMAGINE --- */
+.img-caption {
+    position: absolute;
+    bottom: -25px;  /* Lo spinge fuori dal box, sotto */
+    right: 0;       /* Lo allinea a destra */
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.5;
+    white-space: nowrap; /* Evita che vada a capo */
+    color: var(--fg-color);
+}    
     </style>
 </head>
 <body>
@@ -285,7 +297,8 @@
             { 
                 title: "Clīvio", 
                 desc: "The Clīvio chair is conceived with the meaningful ambition of bringing a fragment of the <b>natural world into everyday life</b>. The <b>cotton rope</b> and its <b>fastener</b> turn a functional element into a distinctive mark.",
-                 sub: [
+                caption: "Codesigned with Marocco Francesco.", 
+                sub: [
                     { title: "Concept", text: "Questo è il testo di concept hai capito" },
                     { title: "Detail", text: "oddio ma assurdo c'è anche texture!" },
                     { title: "Output", text: "No vabbe pure process no" }
@@ -346,7 +359,8 @@
                 desc: proj.desc,
                 projectIdx: pIdx, 
                 img: proj.img, 
-                color: proj.color 
+                color: proj.color,
+                caption: proj.caption
             });
 
             // 2. Sottosezioni (LOOP CORRETTO)
@@ -465,11 +479,16 @@
                         </div>
                 </div>`;
             } else if (data.type === 'main') {
+                // Controlla se c'è una caption, se sì crea l'HTML, altrimenti lascia vuoto
+                const captionHTML = data.caption ? `<div class="img-caption">${data.caption}</div>` : '';
+                
                 face.innerHTML = `<div class="portfolio-content">
                     <h3>Project Overview</h3>
                     <h2>${data.title}</h2>
-                    <p>${data.desc}</p>  </div>
-                <div class="image-container"><img src="${data.img}"></div>`;
+                    <p>${data.desc}</p></div>
+                <div class="image-container">
+                    <img src="${data.img}">
+                    ${captionHTML} </div>`;
             } else if (data.type === 'sub') {
                 face.innerHTML = `<div class="portfolio-content">
                     <h3>${data.title} / Study</h3>
