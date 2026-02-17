@@ -634,10 +634,11 @@
         
         function update() {
             if (isMobile()) {
-                currentScrollY += (targetScrollY - currentScrollY) * 0.1;
-                if (Math.abs(targetScrollY - currentScrollY) < 0.5) currentScrollY = targetScrollY;
+                // Legge direttamente lo scroll reale del telefono
+                // Questo sincronizza perfettamente il 3D con il dito e lo snap CSS
+                currentScrollY = window.scrollY; 
             } else {
-                currentScrollY = window.scrollY;
+                currentScrollY = window.scrollY; // Anche su PC legge lo scroll (che però è animato dal browser)
             }
 
             const sY = currentScrollY;
