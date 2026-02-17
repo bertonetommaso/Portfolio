@@ -33,9 +33,20 @@
             min-height: 100vh;
         }
 
-        @media (max-width: 768px) {
-            body { position: fixed; overflow: hidden; width: 100%; height: 100%; }
-        }
+       @media (max-width: 768px) {
+            /* --- MODIFICA QUESTA REGOLA --- */
+            body { 
+                position: relative;      /* Era fixed. Ora deve scorrere */
+                overflow-y: auto;        /* Abilita lo scroll verticale */
+                overflow-x: hidden;      /* Niente scroll orizzontale */
+                width: 100%; 
+                height: 100%; 
+                
+                /* ATTIVA IL MAGNETISMO (SNAP) */
+                scroll-snap-type: y mandatory; 
+                scroll-behavior: smooth;
+            }
+            /* ... il resto rimane uguale ... */
 
         /* --- MOBILE ARROWS --- */
         .mobile-nav-arrow {
