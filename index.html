@@ -23,9 +23,23 @@ body[data-lang="it"] .lang-en { display: none !important; }
     display: flex; align-items: center; justify-content: center;
     padding: 5px;
 }
+/* Misura grande per PC */
+#lang-btn svg {
+    width: 32px; 
+    height: 22px;
+    border-radius: 2px;
+    border: 1px solid rgba(150,150,150,0.3);
+    display: block;
+}
 #lang-btn:hover { transform: scale(1.1); }
+
 @media (max-width: 768px) {
     #lang-btn { top: 20px; right: 20px; }
+    /* Misura originale piccola per Mobile */
+    #lang-btn svg {
+        width: 26px; 
+        height: 18px;
+    }
 }
 
 /* --- CORE SETUP --- */
@@ -1024,4 +1038,5 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
