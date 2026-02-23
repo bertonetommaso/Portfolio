@@ -927,28 +927,36 @@ if (ghostLayer) {
             const clickable = elementBelow.closest('.hint-vertical, .hint-horizontal, .hint-horizontal-left, .box, a, #signature-btn, #lang-btn');
             if (clickable) {
             
-                if (clickable.classList.contains('mail-box')) {
-                    // Metodo "Forza Bruta" per PC: crea una textarea, la seleziona e copia
+               if (clickable.classList.contains('mail-box')) {
+                    const textToCopy = 'bertonetommaso2@gmail.com';
+
+                    // Creiamo una textarea (più affidabile dell'input per questo scopo)
                     const textArea = document.createElement("textarea");
-                    textArea.value = 'bertonetommaso2@gmail.com';
+                    textArea.value = textToCopy;
                     
-                    // La rendiamo invisibile ma "presente" per il browser
-                    textArea.style.position = "fixed";
-                    textArea.style.left = "-9999px";
+                    // La rendiamo invisibile ma tecnicamente presente sullo schermo
                     textArea.style.top = "0";
-                    document.body.appendChild(textArea);
+                    textArea.style.left = "0";
+                    textArea.style.position = "fixed";
+                    textArea.style.opacity = "0"; 
                     
+                    document.body.appendChild(textArea);
                     textArea.focus();
                     textArea.select();
                     
                     try {
+                        // Metodo classico (funziona anche offline/file locale)
                         document.execCommand('copy');
                     } catch (err) {
-                        console.error('Errore copia', err);
+                        // Piano B: Se fallisce, prova il metodo moderno
+                        if (navigator.clipboard) {
+                             navigator.clipboard.writeText(textToCopy);
+                        }
                     }
                     
                     document.body.removeChild(textArea);
                     
+                    // Attiva le animazioni
                     showCopyEffect(clickable);
                     spawnDroplets(e.clientX, e.clientY);
                 }
@@ -1074,6 +1082,7 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
 
