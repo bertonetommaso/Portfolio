@@ -928,13 +928,22 @@ if (ghostLayer) {
             if (clickable) {
             
                 if (clickable.classList.contains('mail-box')) {
-                    // FIX PC: Metodo infallibile con input invisibile
-                    const tempInput = document.createElement('input');
-                    tempInput.value = 'bertonetommaso2@gmail.com';
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
+                    const mailText = 'bertonetommaso2@gmail.com';
+                    
+                    // Prova prima il metodo moderno, se fallisce usa il trucco "forzato"
+                    try {
+                        navigator.clipboard.writeText(mailText);
+                    } catch (err) {
+                        const textArea = document.createElement("textarea");
+                        textArea.value = mailText;
+                        textArea.style.position = "fixed"; /* Evita salti della pagina */
+                        textArea.style.left = "-9999px"; /* Lo nasconde fuori dallo schermo */
+                        document.body.appendChild(textArea);
+                        textArea.focus(); /* FONDAMENTALE per i browser PC */
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                    }
                     
                     showCopyEffect(clickable);
                     spawnDroplets(e.clientX, e.clientY);
@@ -1061,6 +1070,7 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
 
