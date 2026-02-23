@@ -928,8 +928,27 @@ if (ghostLayer) {
             if (clickable) {
             
                 if (clickable.classList.contains('mail-box')) {
-                    // Metodo originale ripristinato dal tuo codice
-                    navigator.clipboard.writeText('bertonetommaso2@gmail.com');
+                    // Metodo "Forza Bruta" per PC: crea una textarea, la seleziona e copia
+                    const textArea = document.createElement("textarea");
+                    textArea.value = 'bertonetommaso2@gmail.com';
+                    
+                    // La rendiamo invisibile ma "presente" per il browser
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-9999px";
+                    textArea.style.top = "0";
+                    document.body.appendChild(textArea);
+                    
+                    textArea.focus();
+                    textArea.select();
+                    
+                    try {
+                        document.execCommand('copy');
+                    } catch (err) {
+                        console.error('Errore copia', err);
+                    }
+                    
+                    document.body.removeChild(textArea);
+                    
                     showCopyEffect(clickable);
                     spawnDroplets(e.clientX, e.clientY);
                 }
@@ -1055,6 +1074,7 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
 
