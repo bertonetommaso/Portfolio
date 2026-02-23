@@ -926,8 +926,16 @@ if (ghostLayer) {
         if (elementBelow) {
             const clickable = elementBelow.closest('.hint-vertical, .hint-horizontal, .hint-horizontal-left, .box, a, #signature-btn, #lang-btn');
             if (clickable) {
+                if (clickable) {
                 if (clickable.classList.contains('mail-box')) {
-                    navigator.clipboard.writeText('bertonetommaso2@gmail.com');
+                    // FIX PC: Metodo infallibile con input invisibile
+                    const tempInput = document.createElement('input');
+                    tempInput.value = 'bertonetommaso2@gmail.com';
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
                     showCopyEffect(clickable);
                     spawnDroplets(e.clientX, e.clientY);
                 }
@@ -1053,6 +1061,7 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
 
