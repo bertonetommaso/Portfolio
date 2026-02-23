@@ -711,13 +711,19 @@ document.addEventListener('touchmove', (e) => {
         const diffY = touch.clientY - startY;
 
         if (isVerticalScroll) return;
-        if (!isDragging && Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 5) {
-            isVerticalScroll = true;
-            return; 
+
+        // Calcolo più equo: aspetta 8px per capire l'intenzione esatta del dito
+        if (!isDragging) {
+            if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+                isDragging = true; // Hai chiaramente mosso di lato
+            } else if (Math.abs(diffY) > 8 && Math.abs(diffY) > Math.abs(diffX)) {
+                isVerticalScroll = true; // Hai chiaramente mosso in giù
+                return; 
+            }
         }
-        if (Math.abs(diffX) > (Math.abs(diffY) * 2) && Math.abs(diffX) > 15) {
-            isDragging = true;
-            e.preventDefault(); 
+
+        if (isDragging) {
+            e.preventDefault(); // BLOCCA il salto alla pagina Viote!
             if(slider) slider.style.transform = `translate3d(${Math.max(-window.innerWidth, Math.min(0, currentXOffset + diffX))}px, 0, 0)`;
         }
     }
@@ -991,13 +997,22 @@ if (ghostLayer) {
             const h = window.innerHeight;
             const currentPage = Math.round(scroller.scrollTop / h);
 
+            // A) SE SIAMO NEI PROGETTI: Cambia la pagina
             if (currentPage > 0) {
                 let targetPage = currentPage;
-                if (distX > 0) targetPage++; 
-                else targetPage--; 
+                if (distX > 0) targetPage++; // Prossima pagina
+                else targetPage--; // Pagina precedente
 
                 if (targetPage >= 0 && targetPage < flatFaces.length) {
                     scroller.scrollTo({ top: targetPage * h, behavior: 'smooth' });
+                }
+            } 
+            // B) SE SIAMO SULLA PRIMA PAGINA: Forza l'apertura del pannello
+            else if (currentPage === 0 && !isDragging) {
+                if (distX > 40 && currentXOffset === 0) {
+                    openPresentation(); // Hai strusciato verso sinistra -> Apri Who am I
+                } else if (distX < -40 && currentXOffset < 0) {
+                    backToTitle(); // Hai strusciato verso destra -> Torna al titolo
                 }
             }
         }
@@ -1038,5 +1053,6 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
