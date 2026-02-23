@@ -1043,7 +1043,26 @@ if(langBtn) {
         }
     });
 }   
-
+// --- FIX DEFINITIVO CLICK MAIL PC ---
+// Ascoltatore indipendente e diretto che bypassa le restrizioni del ghost layer
+document.addEventListener('click', (e) => {
+    // Se siamo su PC e clicchiamo la mail
+    if (!isMobile()) {
+        const mailBox = e.target.closest('.mail-box');
+        if (mailBox) {
+            // Blocca altri script che potrebbero interferire
+            e.stopPropagation(); 
+            
+            // Scrive direttamente negli appunti
+            navigator.clipboard.writeText('bertonetommaso2@gmail.com').then(() => {
+                showCopyEffect(mailBox);
+                spawnDroplets(e.clientX, e.clientY);
+            }).catch(err => {
+                console.error("Copia fallita: ", err);
+            });
+        }
+    }
+}, true); // Il 'true' finale (fase di capture) garantisce che questo codice si esegua PRIMA di tutto il resto
 function showCopyEffect(el) {
     const addr = el.querySelector('.mail-address');
     if(addr) addr.innerText = 'copied to clipboard!';
@@ -1058,6 +1077,7 @@ function showCopyEffect(el) {
 
 
 </html>
+
 
 
 
